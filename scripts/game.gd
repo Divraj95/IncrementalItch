@@ -224,9 +224,9 @@ func _draw():
 	elif facing == Vector2i.UP: row = 3
 	var tex = walk_texture if stride > 0 else idle_texture
 	var frame = int(clock * (8 if stride > 0 else 5)) % (4 if stride > 0 else 16)
-	draw_texture_rect_region(tex, Rect2(player_at + Vector2(-12, -22), Vector2(64, 64)), Rect2(frame * 32, row * 32, 32, 32))
+	draw_texture_rect_region(tex, Rect2(player_at + Vector2(-12, -8), Vector2(64, 64)), Rect2(frame * 32, row * 32, 32, 32))
 	if carrying:
-		draw_circle(player_at + Vector2(30, 5), 5, GOLD)
+		draw_circle(player_at + Vector2(30, 19), 5, GOLD)
 	var hovered = Vector2i(((get_global_mouse_position() - ORIGIN) / CELL).floor())
 	var target = hovered if absi(hovered.x - player.x) + absi(hovered.y - player.y) == 1 else player + facing
 	draw_rect(Rect2(ORIGIN + Vector2(target) * CELL + Vector2(1, 1), Vector2(38, 38)), GOLD, false, 2)
@@ -268,5 +268,5 @@ func _draw():
 
 func draw_ellipse_shadow(at: Vector2):
 	draw_set_transform(at, 0, Vector2(1, 0.35))
-	draw_circle(Vector2.ZERO, 12, Color(0, 0, 0, 0.25))
+	draw_circle(Vector2.ZERO, 7, Color(0, 0, 0, 0.25))
 	draw_set_transform(Vector2.ZERO)

@@ -3,3 +3,4 @@ build/
 assets/*.png
 assets/*License.txt
 assets/*.import
+docs/*.import

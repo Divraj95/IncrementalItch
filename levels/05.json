@@ -244,5 +244,376 @@
       "move": "L",
       "repeat": 2
     }
+  ],
+  "all_seeds_solution": [
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        6
+      ]
+    },
+    {
+      "move": "U",
+      "repeat": 2
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        4,
+        2
+      ],
+      "material": "water"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        5,
+        2
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 11
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        15,
+        6
+      ]
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        14,
+        6
+      ]
+    },
+    {
+      "move": "L",
+      "repeat": 2
+    },
+    {
+      "move": "D",
+      "repeat": 2
+    },
+    {
+      "place": [
+        11,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "place": [
+        10,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        11,
+        7
+      ]
+    },
+    {
+      "place": [
+        9,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        10,
+        7
+      ]
+    },
+    {
+      "place": [
+        9,
+        8
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        7
+      ]
+    },
+    {
+      "place": [
+        9,
+        9
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        8
+      ]
+    },
+    {
+      "place": [
+        9,
+        8
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        9
+      ]
+    },
+    {
+      "place": [
+        9,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        8
+      ]
+    },
+    {
+      "place": [
+        10,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        7
+      ]
+    },
+    {
+      "place": [
+        11,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        10,
+        7
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        11,
+        7
+      ]
+    },
+    {
+      "place": [
+        11,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "place": [
+        10,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        11,
+        7
+      ]
+    },
+    {
+      "place": [
+        9,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        10,
+        7
+      ]
+    },
+    {
+      "place": [
+        8,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        7
+      ]
+    },
+    {
+      "place": [
+        7,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        8,
+        7
+      ]
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        7,
+        7
+      ]
+    },
+    {
+      "move": "L",
+      "repeat": 3
+    },
+    {
+      "place": [
+        3,
+        8
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        8
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "U",
+      "repeat": 3
+    },
+    {
+      "move": "L",
+      "repeat": 2
+    }
   ]
 }

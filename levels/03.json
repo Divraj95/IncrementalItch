@@ -130,5 +130,153 @@
       "move": "R",
       "repeat": 7
     }
+  ],
+  "all_seeds_solution": [
+    {
+      "take": [
+        2,
+        4
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        6
+      ]
+    },
+    {
+      "move": "U",
+      "repeat": 2
+    },
+    {
+      "place": [
+        3,
+        2
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "place": [
+        3,
+        1
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        1
+      ]
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        2
+      ]
+    },
+    {
+      "move": "D",
+      "repeat": 2
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 3
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "take": [
+        7,
+        5
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        9,
+        4
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        10,
+        4
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "R",
+      "repeat": 5
+    },
+    {
+      "move": "D",
+      "repeat": 2
+    },
+    {
+      "move": "U",
+      "repeat": 2
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    }
   ]
 }

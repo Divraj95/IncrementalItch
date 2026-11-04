@@ -1,4 +1,4 @@
-name: Publish browser prototype
+name: Publish browser adventure
 
 on:
   push:
@@ -25,6 +25,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Verify browser files
+        run: |
+          test -s docs/index.html
+          test -s docs/build.json
+          python3 - <<'PY'
+          import json, pathlib
+          root = pathlib.Path("docs")
+          version = json.loads((root / "build.json").read_text())["version"]
+          for suffix in (".js", ".wasm", ".pck", ".audio.worklet.js", ".audio.position.worklet.js"):
+              artifact = root / ("game-" + version + suffix)
+              assert artifact.is_file() and artifact.stat().st_size > 0, artifact
+          PY
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:

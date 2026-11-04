@@ -1,16 +1,23 @@
-# Steal the Ground — prototype 01
+# Steal the Ground
 
-A short Godot 4.6 terrain puzzle. Borrow tiles to cross a broken glade, recover the forest heart, and bring it home. This is the first mechanic prototype, not the planned 15-minute adventure.
+A five-chapter Godot 4.6 terrain puzzle adventure. Borrow the ground, repair forgotten machinery, recover the forest heart, and carry it home. Each chapter introduces a new use for the three-slot backpack. Optional seeds reward detours, while undo and progressive hints make experimentation safe.
 
-## Play
+Play the deployed build: **https://divraj95.github.io/IncrementalItch/**
 
-WASD or arrow keys move. Click an adjacent tile to pick it up, or an adjacent gap to place the selected carried tile. E / Space uses the tile you face. 1–3 or Tab selects a backpack slot. Z undoes movement and interactions; R resets. Water is not walkable. Trees, the home ring, and the heart's tile stay rooted.
+## Controls
 
-Carry up to three tiles. The recovered heart occupies one slot. Build a three-tile crossing across the central gap and preserve your path home.
+- **WASD / arrows:** move; hold a direction to keep walking.
+- **Click an adjacent tile:** take it, or place the selected carried material into a gap.
+- **E / Space:** use the tile you face.
+- **1–3 / Tab:** select a backpack slot.
+- **Z:** undo. **R:** restart the current chapter.
+- **H:** reveal the next optional hint. **Escape:** chapter map. **M:** mute sound.
+
+Grass and stone are walkable; water is not. Rooted ground stays fixed. Water fills mill channels, while stone supports mechanisms. The heart needs one backpack slot. Read each chapter's objective before heading for its exit.
 
 ## Develop
 
-Open `project.godot` in Godot 4.6.3 and press F6/F5. From a terminal:
+Restore your licensed artwork first using [assets/README.md](assets/README.md). Open `project.godot` in **Godot 4.6.3** and press F5. From a terminal:
 
 ```sh
 godot --headless --path . --editor --import --quit
@@ -18,26 +25,25 @@ godot --headless --path . --script tests/smoke.gd
 godot --path .
 ```
 
-Export the Web preset with matching official Godot export templates:
+The game is intended for keyboard and mouse on desktop browsers. The chapter structure targets a short adventure; actual first-play duration depends on puzzle discovery and needs player feedback.
+
+## Export and publish
+
+Install matching official Godot Web export templates, then run:
 
 ```sh
-mkdir -p build/web
-godot --headless --path . --export-release Web build/web/index.html
-python3 -m http.server 8000 --directory build/web
+./tools/export_web.sh
+python3 -m http.server 8000 --directory docs
 ```
 
-The Web preset uses single-threaded WebAssembly and needs no cross-origin isolation headers. Serve the exported files over HTTP(S), rather than opening the HTML as a local file.
+The export helper creates a fresh build, rejects script/export errors, and copies only the successful output into `docs/`. In the managed cloud workspace it defaults to writable XDG directories under `/tmp/steal-godot`, where the matching templates were installed. Set `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, and `XDG_CACHE_HOME` explicitly to use a different installation.
+
+Runtime filenames include a content-derived build ID so browser caches cannot mix files from different builds. `docs/build.json` identifies the published version. Serve over HTTP(S); opening the HTML directly from disk will not work. The single-threaded Web export needs no cross-origin isolation headers.
+
+Commit the updated `docs/` directory with your changes. **Publish browser adventure** in GitHub Actions deploys it when those files change on `main`. It deploys the exported files; it does not rebuild from source or require access to the original commercial artwork. Check [Actions](https://github.com/Divraj95/IncrementalItch/actions) for deployment progress.
+
+If Pages is not yet configured, select **Settings → Pages → Source → GitHub Actions**, then rerun the deployment workflow. Refresh the game after a successful deployment.
 
 ## Artwork
 
 Minifantasy by **Krishna Palacio**. Uses the user-provided commercial Tiny Overworld and Creatures packs. Their original licenses are preserved beside the local artwork. The licenses require creator credit and sending a link upon project completion. Standalone asset redistribution is prohibited. Licensed PNGs and license files are intentionally ignored by Git; preserve them locally or restore them from your own purchased packs. Do not publish the source bundle containing these assets without checking redistribution rights.
-
-## Browser hosting
-
-The `docs/` directory contains the exported playable game (not the original asset PNGs). The GitHub Actions workflow publishes it with GitHub Pages when these files change on `main`.
-
-Expected address after successful deployment: https://divraj95.github.io/IncrementalItch/
-
-If automatic Pages setup is unavailable, the repository owner can select **Settings → Pages → Source → GitHub Actions**, then rerun **Publish browser prototype** in Actions. Alternatively, select **Deploy from a branch**, branch `main`, folder `/docs`.
-
-After changing the game, export the Web preset again and copy its runtime files from `build/web/` into `docs/` before committing. The workflow deploys this checked-in export; it does not rebuild the Godot source or need access to the commercial source art.

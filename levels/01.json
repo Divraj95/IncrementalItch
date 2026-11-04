@@ -129,5 +129,178 @@
       "move": "R",
       "repeat": 7
     }
+  ],
+  "all_seeds_solution": [
+    {
+      "take": [
+        2,
+        4
+      ]
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "place": [
+        5,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        5,
+        5
+      ]
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        6,
+        5
+      ]
+    },
+    {
+      "place": [
+        8,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        7,
+        5
+      ]
+    },
+    {
+      "place": [
+        9,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        8,
+        5
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        5
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 3
+    },
+    {
+      "move": "U",
+      "repeat": 2
+    },
+    {
+      "place": [
+        13,
+        2
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "place": [
+        13,
+        1
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        13,
+        1
+      ]
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        13,
+        2
+      ]
+    },
+    {
+      "move": "D",
+      "repeat": 4
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "U",
+      "repeat": 2
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    }
   ]
 }

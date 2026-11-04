@@ -1,0 +1,133 @@
+{
+  "title": "The Borrowed Path",
+  "subtitle": "Two handfuls of earth. An impossible distance.",
+  "intro": "The forest heart is gone. Follow its glow across the broken glade.",
+  "objective": "Reach the eastern trail.",
+  "hints": [
+    "Bright grass can move. Dark rooted paths and trees stay put.",
+    "Two grass tiles can carry you farther than two steps.",
+    "Place both tiles. Step onto the second; take back the first."
+  ],
+  "goal_kind": "exit",
+  "water_sockets": [],
+  "stone_sockets": [],
+  "gates": [],
+  "seeds": [
+    [
+      13,
+      1
+    ],
+    [
+      14,
+      7
+    ]
+  ],
+  "map": [
+    "...................",
+    "...................",
+    "...................",
+    ".T##T.....#T####T..",
+    ".#g##.....#######..",
+    ".#@##.....######E..",
+    ".#g##.....#######..",
+    ".T###.....######T..",
+    "...................",
+    "...................",
+    "..................."
+  ],
+  "solution": [
+    {
+      "take": [
+        2,
+        4
+      ]
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "place": [
+        5,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        5,
+        5
+      ]
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        6,
+        5
+      ]
+    },
+    {
+      "place": [
+        8,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        7,
+        5
+      ]
+    },
+    {
+      "place": [
+        9,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 7
+    }
+  ]
+}

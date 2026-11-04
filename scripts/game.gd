@@ -211,7 +211,10 @@ func _draw():
 		draw_texture_rect_region(props, Rect2(at + Vector2(2, -10), Vector2(36, 48)), Rect2(0, 56, 12, 16))
 	var home_at = ORIGIN + Vector2(HOME) * CELL + Vector2(20, 20)
 	draw_circle(home_at, 15 + sin(clock * 2), Color("b9ce88"), false, 2)
-	text_at(home_at + Vector2(-15, 5), "H", 19, Color("f4e8ba"))
+	var home_label_size = 19
+	var home_label_width = font.get_string_size("H", HORIZONTAL_ALIGNMENT_LEFT, -1, home_label_size).x
+	var home_label_baseline = (font.get_ascent(home_label_size) - font.get_descent(home_label_size)) / 2.0
+	text_at(home_at + Vector2(-home_label_width / 2.0, home_label_baseline), "H", home_label_size, Color("f4e8ba"))
 	if not carrying and not won:
 		var h = ORIGIN + Vector2(HEART) * CELL + Vector2(20, 18 + sin(clock * 3) * 3)
 		draw_circle(h, 21, Color(0.9, 0.75, 0.35, 0.12))

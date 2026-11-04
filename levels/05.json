@@ -1,0 +1,248 @@
+{
+  "title": "The Long Way Home",
+  "subtitle": "The path falls. The forest follows.",
+  "intro": "One last crossing. When the heart wakes, the old road will not survive.",
+  "objective": "Wake the gate, recover the heart, and bring it home.",
+  "hints": [
+    "Fill the water channel and stone foundation to open the old road.",
+    "After taking the heart, borrow the two grass tiles on the eastern bank.",
+    "The old road is gone. Recycle two tiles along the lower crossing."
+  ],
+  "goal_kind": "heart_return",
+  "water_sockets": [
+    [
+      4,
+      2
+    ]
+  ],
+  "stone_sockets": [
+    [
+      5,
+      2
+    ]
+  ],
+  "gates": [
+    [
+      9,
+      4
+    ]
+  ],
+  "seeds": [
+    [
+      9,
+      9
+    ],
+    [
+      3,
+      8
+    ]
+  ],
+  "collapse": [
+    [
+      7,
+      4
+    ],
+    [
+      8,
+      4
+    ],
+    [
+      10,
+      4
+    ],
+    [
+      11,
+      4
+    ]
+  ],
+  "map": [
+    "...................",
+    "...................",
+    ".T##..T.....T####T.",
+    ".######.....######.",
+    ".#@######.######H#.",
+    ".######.....######.",
+    ".#ws###.....##gg##.",
+    ".T#####.....#####T.",
+    "...................",
+    "...................",
+    "..................."
+  ],
+  "solution": [
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        6
+      ]
+    },
+    {
+      "move": "U",
+      "repeat": 2
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        4,
+        2
+      ],
+      "material": "water"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        5,
+        2
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 11
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        15,
+        6
+      ]
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        14,
+        6
+      ]
+    },
+    {
+      "move": "L",
+      "repeat": 2
+    },
+    {
+      "move": "D",
+      "repeat": 2
+    },
+    {
+      "place": [
+        11,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "place": [
+        10,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        11,
+        7
+      ]
+    },
+    {
+      "place": [
+        9,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        10,
+        7
+      ]
+    },
+    {
+      "place": [
+        8,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        9,
+        7
+      ]
+    },
+    {
+      "place": [
+        7,
+        7
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "move": "L",
+      "repeat": 2
+    },
+    {
+      "move": "U",
+      "repeat": 3
+    },
+    {
+      "move": "L",
+      "repeat": 2
+    }
+  ]
+}

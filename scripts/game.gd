@@ -16,6 +16,7 @@ var hint_count = 0
 var muted = false
 var clock = 0.0
 var cooldown = 0.0
+var queued_direction = Vector2i.ZERO
 var render_pos = Vector2.ZERO
 var particles: Array = []
 var font = ThemeDB.fallback_font
@@ -49,7 +50,7 @@ func load_chapter(index: int):
 	chapter = clampi(index, 0, chapters.size() - 1)
 	g.setup(chapters[chapter])
 	render_pos = Vector2(g.player) * CELL
-	hint_count = 0; particles.clear(); cooldown = 0.2
+	hint_count = 0; particles.clear(); cooldown = 0.2; queued_direction = Vector2i.ZERO
 	queue_redraw()
 
 func save_progress():
@@ -108,6 +109,10 @@ func _unhandled_input(event):
 			if event.keycode == KEY_R: start_chapter(chapter)
 			return
 		match event.keycode:
+			KEY_W, KEY_UP: queued_direction = Vector2i.UP
+			KEY_S, KEY_DOWN: queued_direction = Vector2i.DOWN
+			KEY_A, KEY_LEFT: queued_direction = Vector2i.LEFT
+			KEY_D, KEY_RIGHT: queued_direction = Vector2i.RIGHT
 			KEY_E, KEY_SPACE: respond(g.interact(g.player + g.facing))
 			KEY_R: start_chapter(chapter)
 			KEY_H: show_hint()
@@ -142,8 +147,10 @@ func _unhandled_input(event):
 func _process(delta):
 	clock += delta; cooldown -= delta
 	if not map_open and not g.complete and cooldown <= 0:
-		var d = Vector2i.ZERO
-		if Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP): d = Vector2i.UP
+		var d = queued_direction
+		queued_direction = Vector2i.ZERO
+		if d != Vector2i.ZERO: pass
+		elif Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP): d = Vector2i.UP
 		elif Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN): d = Vector2i.DOWN
 		elif Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT): d = Vector2i.LEFT
 		elif Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT): d = Vector2i.RIGHT
@@ -164,14 +171,16 @@ func chime(event: String):
 	if not frequencies.has(event): return
 	if not tones.has(event):
 		var length = 0.45 if event in ["complete", "heart"] else 0.1
-		var bytes = PackedByteArray(); bytes.resize(int(22050 * length))
-		for i in bytes.size():
+		var bytes = PackedByteArray(); bytes.resize(int(22050 * length) * 2)
+		for i in bytes.size() / 2:
 			var t = float(i) / 22050.0
 			var envelope = sin(minf(1, t / 0.008) * PI / 2) * pow(1 - t / length, 2)
 			var wave = sin(t * frequencies[event] * TAU)
 			if event in ["complete", "heart"]: wave = (wave + sin(t * frequencies[event] * 1.25 * TAU) + sin(t * frequencies[event] * 1.5 * TAU)) / 3
-			bytes[i] = int(128 + wave * envelope * 90)
-		var sound = AudioStreamWAV.new(); sound.format = AudioStreamWAV.FORMAT_8_BITS; sound.mix_rate = 22050; sound.data = bytes
+			var sample = int(wave * envelope * 24000)
+			bytes[i * 2] = sample & 255
+			bytes[i * 2 + 1] = (sample >> 8) & 255
+		var sound = AudioStreamWAV.new(); sound.format = AudioStreamWAV.FORMAT_16_BITS; sound.mix_rate = 22050; sound.data = bytes
 		tones[event] = sound
 	voices[voice_index].stream = tones[event]; voices[voice_index].play(); voice_index = (voice_index + 1) % voices.size()
 
@@ -202,7 +211,7 @@ func button(rect: Rect2, value: String, primary: bool = false):
 	label(rect.position + Vector2(14, rect.size.y / 2 + 5), value, 15, GOLD if primary else WHITE)
 
 func tile_color(kind: String) -> Color:
-	return {"root": Color("405b43"), "grass": Color("83a854"), "water": Color("466e91"), "stone": Color("a4a390")}.get(kind, Color("152930"))
+	return {"root": [Color("405b43"), Color("3b5953"), Color("595947"), Color("4b4e59"), Color("536445")][mini(chapter, 4)], "grass": Color("83a854"), "water": Color("466e91"), "stone": Color("a4a390")}.get(kind, Color("152930"))
 
 func draw_seed(at: Vector2):
 	draw_circle(at, 5, GOLD)
@@ -254,6 +263,12 @@ func draw_board():
 				else: draw_line(at + Vector2(4, 36), at + Vector2(36, 36), Color("2d4537"), 2)
 			elif p in g.trees: draw_rect(Rect2(at, Vector2(40, 40)), Color("304535"))
 			elif (x + y) % 3 == 0: draw_circle(at + Vector2(20, 22 + sin(clock + x) * 2), 1, Color("30424c"))
+	if g.complete:
+		for p in g.rooted:
+			if (p.x + p.y) % 3 == 0:
+				var flower = ORIGIN + Vector2(p) * CELL + Vector2(11, 12)
+				draw_circle(flower, 3, Color("e7c681"))
+				draw_line(flower + Vector2(0, 3), flower + Vector2(0, 9), Color("a8c878"), 2)
 	for p in g.trees:
 		draw_texture_rect_region(props, Rect2(ORIGIN + Vector2(p) * CELL + Vector2(2, -10), Vector2(36, 48)), Rect2(0, 56, 12, 16))
 	for p in g.water_sockets:
@@ -263,7 +278,9 @@ func draw_board():
 	for p in g.stone_sockets:
 		var at = ORIGIN + Vector2(p) * CELL
 		draw_rect(Rect2(at + Vector2(3, 3), Vector2(34, 34)), GOLD, false, 2)
-		if not g.tiles.has(p): centered(at + Vector2(20, 27), "◆", 20, GOLD)
+		if not g.tiles.has(p):
+			var center = at + Vector2(20, 20)
+			draw_polyline(PackedVector2Array([center + Vector2(0, -9), center + Vector2(9, 0), center + Vector2(0, 9), center + Vector2(-9, 0), center + Vector2(0, -9)]), GOLD, 2)
 	for p in g.gates:
 		var at = ORIGIN + Vector2(p) * CELL
 		if g.powered():
@@ -283,7 +300,8 @@ func draw_board():
 	if g.exit_cell.x >= 0:
 		var at = ORIGIN + Vector2(g.exit_cell) * CELL
 		draw_arc(at + Vector2(20, 19), 14, 0, TAU, 24, GOLD if g.powered() else MUTED, 2)
-		centered(at + Vector2(20, 25), "→", 22, GOLD)
+		draw_line(at + Vector2(11, 19), at + Vector2(28, 19), GOLD, 2)
+		draw_polyline(PackedVector2Array([at + Vector2(21, 12), at + Vector2(28, 19), at + Vector2(21, 26)]), GOLD, 2)
 	if g.heart.x >= 0 and not g.carrying:
 		var at = ORIGIN + Vector2(g.heart) * CELL + Vector2(20, 17 + sin(clock * 3) * 2)
 		draw_circle(at, 20, Color(0.9, 0.75, 0.35, 0.12))
@@ -350,10 +368,15 @@ func draw_map():
 		label(rect.position + Vector2(16, 32), "CHAPTER %02d" % (i + 1), 12, MUTED if locked else GOLD)
 		wrapped(rect.position + Vector2(16, 69), chapters[i].title, 160, 21, MUTED if locked else WHITE)
 		wrapped(rect.position + Vector2(16, 130), chapters[i].subtitle, 157, 13, MUTED)
-		label(rect.position + Vector2(16, 192), "LOCKED" if locked else "%d/2 SEEDS · REPLAY" % int(records[str(i)].seeds) if records.has(str(i)) else "ENTER THE FOREST →", 11, MUTED if locked else GOLD)
+		label(rect.position + Vector2(16, 192), "LOCKED" if locked else "%d/2 SEEDS · REPLAY" % int(records[str(i)].seeds) if records.has(str(i)) else "ENTER THE FOREST >", 11, MUTED if locked else GOLD)
 	button(Rect2(426, 570, 300, 48), "Enter   Continue your journey", true)
 	centered(Vector2(576, 658), "No timer. No lives. Undo freely. Optional wild seeds reward the curious.", 15, MUTED)
 	centered(Vector2(576, 704), "Minifantasy artwork by Krishna Palacio · ADVENTURE 02", 12, MUTED)
+
+func total_seeds() -> int:
+	var count = 0
+	for record in records.values(): count += int(record.get("seeds", 0))
+	return count
 
 func draw_completion():
 	draw_rect(Rect2(0, 0, 1152, 768), Color(0.025, 0.06, 0.075, 0.75))
@@ -362,6 +385,6 @@ func draw_completion():
 	centered(Vector2(576, 282), "THE FOREST REMEMBERS" if ending else "CHAPTER RESTORED", 13, GOLD)
 	centered(Vector2(576, 330), "A little world, made whole." if ending else "A way forward.", 30, WHITE)
 	centered(Vector2(576, 373), "The heart is home. The paths you borrowed bloom again." if ending else g.data.title + " is behind you.", 17, WHITE)
-	centered(Vector2(576, 412), "%d choices · %d of %d wild seeds rescued" % [g.moves, g.collected.size(), g.seeds.size()], 15, MUTED)
+	centered(Vector2(576, 412), ("%d of 10 wild seeds saved across your journey" % total_seeds()) if ending else "%d choices · %d of %d wild seeds rescued" % [g.moves, g.collected.size(), g.seeds.size()], 15, MUTED)
 	button(Rect2(405, 445, 340, 48), "Enter   Return to the journey map" if ending else "Enter   Follow the next trail", true)
 	centered(Vector2(576, 523), "Z to undo · R to replay · Esc for chapters", 13, MUTED)

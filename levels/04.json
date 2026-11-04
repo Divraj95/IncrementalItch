@@ -1,8 +1,8 @@
 {
   "title": "The Heart Engine",
   "subtitle": "A river, a weight, and the thing they stole.",
-  "intro": "The engine has swallowed the forest heart. Wake its locks and steal it back.",
-  "objective": "Power both locks, take the heart, and reach the upper trail.",
+  "intro": "The forest heart lies beyond the engine. Open its locks and find the upper trail.",
+  "objective": "Power both locks and reach the engine\u2019s upper trail.",
   "hints": [
     "The engine needs one water tile and one stone weight.",
     "Keep two travel tiles with you. Ferry one lock material at a time.",
@@ -37,14 +37,14 @@
       7
     ]
   ],
-  "require_heart": true,
+  "require_heart": false,
   "map": [
     "...................",
     "...................",
     "..............T##E.",
     ".T#wT....T..#.####.",
     ".#g##....####.####.",
-    ".#@##....####.##H#.",
+    ".#@##....####.####.",
     ".#g##....####.####.",
     ".##s#....####.###T.",
     ".T###....###T......",
@@ -143,6 +143,12 @@
       "repeat": 1
     },
     {
+      "take": [
+        7,
+        5
+      ]
+    },
+    {
       "move": "R",
       "repeat": 1
     },
@@ -232,6 +238,12 @@
       "repeat": 1
     },
     {
+      "take": [
+        6,
+        5
+      ]
+    },
+    {
       "move": "L",
       "repeat": 1
     },
@@ -318,6 +330,12 @@
     {
       "move": "R",
       "repeat": 1
+    },
+    {
+      "take": [
+        7,
+        5
+      ]
     },
     {
       "move": "R",

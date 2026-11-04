@@ -1,0 +1,170 @@
+{
+  "title": "The Thirsty Mill",
+  "subtitle": "Carry a river in your pockets.",
+  "intro": "The old mill has fallen silent. Its channels are dry, its bridge asleep.",
+  "objective": "Fill both mill channels, then cross the bridge.",
+  "hints": [
+    "Blue outlined sockets need water. Fill both to wake the mill.",
+    "You cannot carry two bridge tiles and two water tiles at once.",
+    "Leave your grass bridge in place and return for the second water tile."
+  ],
+  "goal_kind": "exit",
+  "water_sockets": [
+    [
+      9,
+      3
+    ],
+    [
+      10,
+      3
+    ]
+  ],
+  "stone_sockets": [],
+  "gates": [
+    [
+      12,
+      5
+    ]
+  ],
+  "seeds": [
+    [
+      9,
+      8
+    ],
+    [
+      15,
+      1
+    ]
+  ],
+  "map": [
+    "...................",
+    "...................",
+    "........T##T.......",
+    ".T#ww#..#..#.T####.",
+    ".#g###..####.#####.",
+    ".#@###..####.####E.",
+    ".#g###..####.#####.",
+    ".T###T..####.####T.",
+    "........####.......",
+    "...................",
+    "..................."
+  ],
+  "solution": [
+    {
+      "take": [
+        2,
+        4
+      ]
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        3
+      ]
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        9,
+        3
+      ],
+      "material": "water"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "L",
+      "repeat": 5
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "take": [
+        4,
+        3
+      ]
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 6
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "place": [
+        10,
+        3
+      ],
+      "material": "water"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 7
+    }
+  ]
+}

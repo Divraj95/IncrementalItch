@@ -31,3 +31,13 @@ The Web preset uses single-threaded WebAssembly and needs no cross-origin isolat
 ## Artwork
 
 Minifantasy by **Krishna Palacio**. Uses the user-provided commercial Tiny Overworld and Creatures packs. Their original licenses are preserved beside the local artwork. The licenses require creator credit and sending a link upon project completion. Standalone asset redistribution is prohibited. Licensed PNGs and license files are intentionally ignored by Git; preserve them locally or restore them from your own purchased packs. Do not publish the source bundle containing these assets without checking redistribution rights.
+
+## Browser hosting
+
+The `docs/` directory contains the exported playable game (not the original asset PNGs). The GitHub Actions workflow publishes it with GitHub Pages when these files change on `main`.
+
+Expected address after successful deployment: https://divraj95.github.io/IncrementalItch/
+
+If automatic Pages setup is unavailable, the repository owner can select **Settings → Pages → Source → GitHub Actions**, then rerun **Publish browser prototype** in Actions. Alternatively, select **Deploy from a branch**, branch `main`, folder `/docs`.
+
+After changing the game, export the Web preset again and copy its runtime files from `build/web/` into `docs/` before committing. The workflow deploys this checked-in export; it does not rebuild the Godot source or need access to the commercial source art.

@@ -1,0 +1,134 @@
+{
+  "title": "The Weight of Stone",
+  "subtitle": "A bridge can become a counterweight.",
+  "intro": "The quarry lift needs two stone weights. Every loose rock has a second use.",
+  "objective": "Set both stone weights and reach the quarry lift.",
+  "hints": [
+    "Gold outlined sockets need stone. Grass cannot hold the lift.",
+    "A stone used as a bridge can be collected again from the far bank.",
+    "Bridge with grass first, stone second. Recover that stone from safety."
+  ],
+  "goal_kind": "exit",
+  "water_sockets": [],
+  "stone_sockets": [
+    [
+      9,
+      4
+    ],
+    [
+      10,
+      4
+    ]
+  ],
+  "gates": [
+    [
+      12,
+      5
+    ]
+  ],
+  "seeds": [
+    [
+      3,
+      1
+    ],
+    [
+      15,
+      7
+    ]
+  ],
+  "map": [
+    "...................",
+    "...................",
+    "...................",
+    ".T###T..T##T.####T.",
+    ".#s###..#..#.#####.",
+    ".#@###..####.####E.",
+    ".#sg##..####.#####.",
+    ".T####..####.T####.",
+    "...................",
+    "...................",
+    "..................."
+  ],
+  "solution": [
+    {
+      "take": [
+        2,
+        4
+      ]
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "take": [
+        7,
+        5
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        9,
+        4
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        10,
+        4
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "R",
+      "repeat": 7
+    }
+  ]
+}

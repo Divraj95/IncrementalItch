@@ -1,0 +1,364 @@
+{
+  "title": "The Heart Engine",
+  "subtitle": "A river, a weight, and the thing they stole.",
+  "intro": "The engine has swallowed the forest heart. Wake its locks and steal it back.",
+  "objective": "Power both locks, take the heart, and reach the upper trail.",
+  "hints": [
+    "The engine needs one water tile and one stone weight.",
+    "Keep two travel tiles with you. Ferry one lock material at a time.",
+    "Reclaim your bridge behind you, deliver water, then return for stone."
+  ],
+  "goal_kind": "exit",
+  "water_sockets": [
+    [
+      10,
+      3
+    ]
+  ],
+  "stone_sockets": [
+    [
+      11,
+      3
+    ]
+  ],
+  "gates": [
+    [
+      13,
+      5
+    ]
+  ],
+  "seeds": [
+    [
+      6,
+      2
+    ],
+    [
+      15,
+      7
+    ]
+  ],
+  "require_heart": true,
+  "map": [
+    "...................",
+    "...................",
+    "..............T##E.",
+    ".T#wT....T..#.####.",
+    ".#g##....####.####.",
+    ".#@##....####.##H#.",
+    ".#g##....####.####.",
+    ".##s#....####.###T.",
+    ".T###....###T......",
+    "...................",
+    "..................."
+  ],
+  "solution": [
+    {
+      "take": [
+        2,
+        4
+      ]
+    },
+    {
+      "take": [
+        2,
+        6
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        3
+      ]
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        5,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        5,
+        5
+      ]
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        6,
+        5
+      ]
+    },
+    {
+      "place": [
+        8,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        8,
+        5
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "place": [
+        10,
+        3
+      ],
+      "material": "water"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "place": [
+        8,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        8,
+        5
+      ]
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        7,
+        5
+      ]
+    },
+    {
+      "place": [
+        5,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "take": [
+        5,
+        5
+      ]
+    },
+    {
+      "move": "L",
+      "repeat": 1
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "take": [
+        3,
+        7
+      ]
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        5,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "place": [
+        6,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        5,
+        5
+      ]
+    },
+    {
+      "place": [
+        7,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        6,
+        5
+      ]
+    },
+    {
+      "place": [
+        8,
+        5
+      ],
+      "material": "grass"
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    },
+    {
+      "take": [
+        8,
+        5
+      ]
+    },
+    {
+      "move": "R",
+      "repeat": 2
+    },
+    {
+      "move": "U",
+      "repeat": 1
+    },
+    {
+      "place": [
+        11,
+        3
+      ],
+      "material": "stone"
+    },
+    {
+      "move": "D",
+      "repeat": 1
+    },
+    {
+      "move": "R",
+      "repeat": 5
+    },
+    {
+      "move": "U",
+      "repeat": 3
+    },
+    {
+      "move": "R",
+      "repeat": 1
+    }
+  ]
+}

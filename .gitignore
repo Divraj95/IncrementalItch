@@ -1,0 +1,5 @@
+.godot/
+build/
+assets/*.png
+assets/*License.txt
+assets/*.import

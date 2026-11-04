@@ -1,0 +1,35 @@
+extends SceneTree
+
+func _initialize():
+	call_deferred("run")
+
+func run():
+	var game = load("res://main.tscn").instantiate()
+	root.add_child(game)
+	game.interact(Vector2i(2, 4))
+	game.interact(Vector2i(2, 6))
+	game.interact(Vector2i(1, 5))
+	assert(game.bag.size() == 3, "Three-slot inventory")
+	game.interact(Vector2i(3, 5))
+	assert(game.bag.size() == 3 and game.tiles.has(Vector2i(3, 5)), "Capacity enforced")
+	for i in 4: game.move_player(Vector2i.RIGHT)
+	assert(game.player == Vector2i(6, 5))
+	for x in range(7, 10):
+		game.interact(Vector2i(x, 5))
+		game.move_player(Vector2i.RIGHT)
+	assert(game.bag.is_empty())
+	for i in 7: game.move_player(Vector2i.RIGHT)
+	assert(game.carrying and game.player == game.HEART, "Heart acquired")
+	for i in 14: game.move_player(Vector2i.LEFT)
+	assert(game.won and game.player == game.HOME, "Round trip completed")
+	game.undo()
+	assert(not game.won and game.carrying, "Undo victory")
+	game.reset_game()
+	game.interact(Vector2i(2, 4))
+	game.undo()
+	assert(game.bag.is_empty() and game.tiles.has(Vector2i(2, 4)), "Undo pickup")
+	game.move_player(Vector2i.LEFT)
+	game.move_player(Vector2i.LEFT)
+	assert(game.player == Vector2i(1, 5), "Cannot walk into void")
+	print("PASS: capacity, bridge construction, heart retrieval, return, undo, void collision")
+	quit(0)

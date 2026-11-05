@@ -9,6 +9,9 @@ window/size/viewport_width=1152
 window/size/viewport_height=768
 window/stretch/mode="canvas_items"
 
+[input_devices]
+pointing/emulate_mouse_from_touch=true
+
 [rendering]
 renderer/rendering_method="gl_compatibility"
 textures/default_filters/use_nearest_mipmap_filter=false

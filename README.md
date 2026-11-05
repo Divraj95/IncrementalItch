@@ -6,7 +6,8 @@ Play the deployed build: **https://divraj95.github.io/IncrementalItch/**
 
 ## Controls
 
-- **WASD / arrows:** move; hold a direction to keep walking.
+- **WASD / arrows or on-screen arrows:** move. On-screen arrows accept clicks and taps.
+- The two icons at the bottom right undo the last action and restart the current level.
 - **Click an adjacent tile:** take it, or place the selected carried material into a gap.
 - **E / Space:** use the tile you face.
 - **1–3 / Tab:** select a backpack slot.

@@ -3,6 +3,10 @@ extends Node2D
 const World = preload("res://scripts/world.gd")
 const ORIGIN = Vector2(196, 100)
 const CELL = 40
+const MOVE_BUTTONS = [Rect2(268, 558, 58, 58), Rect2(208, 620, 58, 58), Rect2(328, 620, 58, 58), Rect2(268, 682, 58, 58)]
+const MOVE_DIRECTIONS = [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
+const UNDO_BUTTON = Rect2(820, 604, 64, 64)
+const RESTART_BUTTON = Rect2(900, 604, 64, 64)
 const GOLD = Color("edce8a")
 const WHITE = Color("e8eee0")
 const MUTED = Color("93aca8")
@@ -129,6 +133,13 @@ func _unhandled_input(event):
 		if g.complete:
 			if Rect2(456, 418, 240, 54).has_point(m): next_chapter()
 			return
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			for i in MOVE_BUTTONS.size():
+				if MOVE_BUTTONS[i].has_point(m): take_step(MOVE_DIRECTIONS[i]); return
+			if UNDO_BUTTON.has_point(m):
+				if g.undo(): render_pos = Vector2(g.player) * CELL; chime("undo")
+				return
+			if RESTART_BUTTON.has_point(m): start_chapter(chapter); return
 		for i in 3:
 			if Rect2(450 + i * 88, 594, 76, 76).has_point(m): g.selected = i; return
 		var p = Vector2i(((m - ORIGIN) / CELL).floor())
@@ -307,6 +318,22 @@ func draw_board():
 	for p in particles: draw_circle(p.pos, 2, Color(p.color, clampf(p.life * 2, 0, 1)))
 
 func draw_sidebar():
+	for i in MOVE_BUTTONS.size():
+		var rect = MOVE_BUTTONS[i]
+		box(rect, Color("243d40") if rect.has_point(get_global_mouse_position()) else Color("102329"))
+		var center = rect.get_center()
+		var direction = Vector2(MOVE_DIRECTIONS[i])
+		var side = direction.orthogonal()
+		draw_line(center - direction * 11, center + direction * 11, WHITE, 3)
+		draw_polyline(PackedVector2Array([center + direction * 3 + side * 8, center + direction * 11, center + direction * 3 - side * 8]), WHITE, 3)
+	box(UNDO_BUTTON, Color("102329"))
+	var undo_center = UNDO_BUTTON.get_center()
+	draw_arc(undo_center, 13, -PI * 0.8, PI * 0.65, 24, WHITE, 2)
+	draw_polyline(PackedVector2Array([undo_center + Vector2(-12, -2), undo_center + Vector2(-12, -12), undo_center + Vector2(-2, -12)]), WHITE, 2)
+	box(RESTART_BUTTON, Color("102329"))
+	var restart_center = RESTART_BUTTON.get_center()
+	draw_arc(restart_center, 13, -PI * 0.4, PI * 1.35, 28, WHITE, 2)
+	draw_polyline(PackedVector2Array([restart_center + Vector2(3, -16), restart_center + Vector2(10, -10), restart_center + Vector2(16, -16)]), WHITE, 2)
 	for i in 3:
 		var rect = Rect2(450 + i * 88, 594, 76, 76)
 		box(rect, Color("102329"), GOLD if g.selected == i else Color("354d50"))

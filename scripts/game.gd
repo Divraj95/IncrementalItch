@@ -312,10 +312,8 @@ func draw_board():
 	draw_set_transform(pos + Vector2(20, 30), 0, Vector2(1, 0.35))
 	draw_circle(Vector2.ZERO, 7, Color(0, 0, 0, 0.3)); draw_set_transform(Vector2.ZERO)
 	var moving = render_pos.distance_to(Vector2(g.player) * CELL) > 1
+	# Keep the player visually facing the viewer in every movement direction.
 	var row = 0
-	if g.facing == Vector2i.LEFT: row = 1
-	elif g.facing == Vector2i.RIGHT: row = 2
-	elif g.facing == Vector2i.UP: row = 3
 	var frame = int(clock * (10 if moving else 5)) % (4 if moving else 16)
 	draw_texture_rect_region(walk_texture if moving else idle_texture, Rect2(pos + Vector2(-12, -8), Vector2(64, 64)), Rect2(frame * 32, row * 32, 32, 32))
 	if g.carrying: draw_circle(pos + Vector2(30, 19), 5, GOLD)

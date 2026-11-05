@@ -58,3 +58,7 @@ Upload `build/steal-the-ground-itch.zip` as an HTML game on itch.io and enable *
 ## itch.io upload
 
 Upload `build/steal-the-ground-itch.zip` as an HTML game, enable **This file will be played in the browser**, set the viewport to 1152 × 768 and allow fullscreen. Put the controls above on the itch page. Include the credit **Minifantasy artwork by Krishna Palacio** in the page description. The upload includes CREDITS.txt.
+
+## Download the itch.io build
+
+[Download steal-the-ground-itch.zip](https://github.com/Divraj95/IncrementalItch/raw/refs/heads/main/downloads/steal-the-ground-itch.zip). Upload the ZIP directly to itch.io as an HTML game. This packaged build includes the required yellow-seed exit locks.

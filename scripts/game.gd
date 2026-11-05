@@ -254,7 +254,7 @@ func draw_board():
 				draw_circle(flower, 3, Color("e7c681"))
 				draw_line(flower + Vector2(0, 3), flower + Vector2(0, 9), Color("a8c878"), 2)
 	for p in g.trees:
-		draw_texture_rect_region(props, Rect2(ORIGIN + Vector2(p) * CELL + Vector2(2, -10), Vector2(36, 48)), Rect2(0, 56, 12, 16))
+		draw_texture_rect_region(props, Rect2(ORIGIN + Vector2(p) * CELL + Vector2(8, 5), Vector2(24, 30)), Rect2(4, 57, 8, 10))
 	for p in g.water_sockets:
 		var at = ORIGIN + Vector2(p) * CELL
 		draw_rect(Rect2(at + Vector2(3, 3), Vector2(34, 34)), Color("8bcada"), false, 2)
@@ -292,13 +292,13 @@ func draw_board():
 	for p in g.seeds:
 		if p not in g.collected: draw_seed(ORIGIN + Vector2(p) * CELL + Vector2(20, 15 + sin(clock * 2 + p.x) * 2))
 	var pos = ORIGIN + render_pos
-	draw_set_transform(pos + Vector2(20, 30), 0, Vector2(1, 0.35))
+	draw_set_transform(pos + Vector2(20, 27), 0, Vector2(1, 0.35))
 	draw_circle(Vector2.ZERO, 7, Color(0, 0, 0, 0.3)); draw_set_transform(Vector2.ZERO)
 	var moving = render_pos.distance_to(Vector2(g.player) * CELL) > 1
 	# Keep the player visually facing the viewer in every movement direction.
 	var row = 0
 	var frame = int(clock * (10 if moving else 5)) % (4 if moving else 16)
-	draw_texture_rect_region(walk_texture if moving else idle_texture, Rect2(pos + Vector2(-12, -8), Vector2(64, 64)), Rect2(frame * 32, row * 32, 32, 32))
+	draw_texture_rect_region(walk_texture if moving else idle_texture, Rect2(pos + Vector2(-11, -11), Vector2(64, 64)), Rect2(frame * 32, row * 32, 32, 32))
 	if g.carrying: draw_circle(pos + Vector2(30, 19), 5, GOLD)
 	var hovered = Vector2i(((get_global_mouse_position() - ORIGIN) / CELL).floor())
 	var d = hovered - g.player

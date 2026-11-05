@@ -161,9 +161,10 @@ func boot_scene():
 	if verify(game.get_script() != null, "Scene: gameplay script attached"):
 		verify(game.chapters.size() == 5, "Scene: all five chapters available")
 		# Browser playtests cover audio; keep headless teardown silent.
+		verify(not game.playing and game.chapter == 0, "Scene: Play screen prepares level 1")
 		game.muted = true
 		game.start_chapter(0)
-		verify(not game.map_open and game.chapter == 0, "Scene: campaign begins from chapter map")
+		verify(game.chapter == 0, "Scene: campaign starts directly at level 1")
 		for i in 5: game.show_hint()
 		verify(game.hint_count == 3, "Scene: progressive hints stop after three")
 		game.g.interact(game.g.player + Vector2i.UP)

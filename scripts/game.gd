@@ -1,17 +1,18 @@
 extends Node2D
 
 const World = preload("res://scripts/world.gd")
-const ORIGIN = Vector2(48, 176)
+const ORIGIN = Vector2(196, 100)
 const CELL = 40
 const GOLD = Color("edce8a")
 const WHITE = Color("e8eee0")
 const MUTED = Color("93aca8")
 var g = World.new()
 var chapters: Array = []
+var playing = false
+var transition_time = -1.0
 var chapter = 0
 var unlocked = 0
 var records: Dictionary = {}
-var map_open = true
 var hint_count = 0
 var muted = false
 var clock = 0.0
@@ -37,14 +38,12 @@ func _ready():
 		push_error("No chapters found"); return
 	var save = ConfigFile.new()
 	if save.load("user://forest_v2.cfg") == OK:
-		unlocked = clampi(int(save.get_value("journey", "unlocked", 0)), 0, chapters.size() - 1)
-		records = save.get_value("journey", "records", {})
 		muted = save.get_value("journey", "muted", false)
 	for i in 4:
 		var voice = AudioStreamPlayer.new()
 		voice.volume_db = -22
 		add_child(voice); voices.append(voice)
-	load_chapter(unlocked)
+	load_chapter(0)
 
 func load_chapter(index: int):
 	chapter = clampi(index, 0, chapters.size() - 1)
@@ -61,10 +60,13 @@ func save_progress():
 	save.save("user://forest_v2.cfg")
 
 func start_chapter(index: int):
+	playing = true
+	transition_time = -1.0
 	if index > unlocked: return
-	load_chapter(index); map_open = false; chime("start")
+	load_chapter(index); chime("start")
 
 func finish_chapter():
+	if chapter < chapters.size() - 1: transition_time = 1.0
 	var key = str(chapter)
 	var old = records.get(key, {})
 	records[key] = {"moves": mini(g.moves, int(old.get("moves", 99999))), "seeds": maxi(g.collected.size(), int(old.get("seeds", 0)))}
@@ -90,23 +92,25 @@ func show_hint():
 
 func next_chapter():
 	if chapter < chapters.size() - 1: start_chapter(chapter + 1)
-	else: map_open = true
+	else:
+		records.clear(); unlocked = 0; start_chapter(0)
 
 func _unhandled_input(event):
+	if not playing:
+		if (event is InputEventKey and event.pressed and event.keycode in [KEY_ENTER, KEY_SPACE]) or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and Rect2(456, 350, 240, 64).has_point(get_global_mouse_position())):
+			start_chapter(0)
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_M:
 			muted = not muted; save_progress(); return
-		if event.keycode == KEY_ESCAPE:
-			map_open = not map_open; cooldown = 0.2; return
-		if map_open:
-			if event.keycode in [KEY_ENTER, KEY_SPACE]: start_chapter(unlocked)
-			return
 		if event.keycode == KEY_Z:
 			if g.undo(): render_pos = Vector2(g.player) * CELL; chime("undo")
 			return
 		if g.complete:
 			if event.keycode in [KEY_ENTER, KEY_SPACE]: next_chapter()
-			if event.keycode == KEY_R: start_chapter(chapter)
+			if event.keycode == KEY_R:
+				if chapter == chapters.size() - 1: next_chapter()
+				else: start_chapter(chapter)
 			return
 		match event.keycode:
 			KEY_W, KEY_UP: queued_direction = Vector2i.UP
@@ -122,22 +126,11 @@ func _unhandled_input(event):
 			KEY_TAB: g.selected = (g.selected + 1) % maxi(1, g.bag.size())
 	if event is InputEventMouseButton and event.pressed:
 		var m = get_global_mouse_position()
-		if map_open:
-			for i in chapters.size():
-				if Rect2(70 + i * 204, 306, 192, 210).has_point(m): start_chapter(i)
-			if Rect2(426, 570, 300, 48).has_point(m): start_chapter(unlocked)
-			return
 		if g.complete:
-			if Rect2(405, 445, 340, 48).has_point(m): next_chapter()
+			if Rect2(456, 418, 240, 54).has_point(m): next_chapter()
 			return
 		for i in 3:
-			if Rect2(840 + i * 88, 318, 76, 70).has_point(m): g.selected = i; return
-		if Rect2(840, 464, 260, 34).has_point(m):
-			if g.undo(): render_pos = Vector2(g.player) * CELL; chime("undo")
-			return
-		if Rect2(840, 504, 260, 34).has_point(m): show_hint(); return
-		if Rect2(840, 544, 260, 34).has_point(m): start_chapter(chapter); return
-		if Rect2(840, 584, 260, 34).has_point(m): map_open = true; return
+			if Rect2(450 + i * 88, 594, 76, 76).has_point(m): g.selected = i; return
 		var p = Vector2i(((m - ORIGIN) / CELL).floor())
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			var d = p - g.player
@@ -146,7 +139,10 @@ func _unhandled_input(event):
 
 func _process(delta):
 	clock += delta; cooldown -= delta
-	if not map_open and not g.complete and cooldown <= 0:
+	if transition_time >= 0 and g.complete:
+		transition_time -= delta
+		if transition_time <= 0: next_chapter()
+	if playing and not g.complete and cooldown <= 0:
 		var d = queued_direction
 		queued_direction = Vector2i.ZERO
 		if d != Vector2i.ZERO: pass
@@ -220,24 +216,12 @@ func draw_seed(at: Vector2):
 
 func _draw():
 	if chapters.is_empty(): return
-	label(Vector2(48, 35), "A SMALL ACT OF REBELLION", 12, GOLD)
-	label(Vector2(46, 80), "Steal the Ground", 40)
-	label(Vector2(48, 111), g.data.get("subtitle", ""), 17, MUTED)
-	label(Vector2(888, 37), "FIVE CHAPTERS · ONE FOREST", 11, MUTED)
-	label(Vector2(940, 78), "M  " + ("Sound off" if muted else "Sound on"), 13, MUTED)
-	for i in chapters.size():
-		var at = Vector2(54 + i * 151, 144)
-		draw_circle(at, 4, GOLD if i <= unlocked else Color("30464a"))
-		label(at + Vector2(12, 4), "%02d" % (i + 1) + ("  /  HERE" if i == chapter else "  /  RESTORED" if records.has(str(i)) else ""), 11, GOLD if i == chapter else MUTED)
-	box(Rect2(44, 172, 768, 448), Color("0d1d25"))
-	draw_board(); draw_sidebar()
-	wrapped(Vector2(48, 650), g.notice, 1055, 17, GOLD)
-	if hint_count > 0: wrapped(Vector2(48, 705), "HINT %d  /  " % hint_count + g.data.hints[hint_count - 1], 1055, 14, MUTED)
-	else: label(Vector2(48, 705), "Bright dotted tiles can move. Rooted paths stay. Need a nudge? Press H.", 14, MUTED)
-	label(Vector2(48, 750), "ADVENTURE 02  ·  progress saves in this browser", 11, Color("728d8d"))
-	label(Vector2(780, 750), "Minifantasy art © Krishna Palacio", 12, MUTED)
-	if map_open: draw_map()
-	elif g.complete: draw_completion()
+	if not playing:
+		button(Rect2(456, 350, 240, 64), "Play", true)
+		return
+	draw_board()
+	draw_sidebar()
+	if g.complete and chapter == chapters.size() - 1: draw_completion()
 
 func draw_board():
 	for y in 11:
@@ -296,7 +280,6 @@ func draw_board():
 			draw_line(wheel, wheel + ray, Color("bda676"), 2)
 	var home_at = ORIGIN + Vector2(g.home) * CELL + Vector2(20, 20)
 	draw_circle(home_at, 15, Color("b9ce88"), false, 2)
-	centered(home_at + Vector2(0, (font.get_ascent(19) - font.get_descent(19)) / 2), "H", 19, Color("f4e8ba"))
 	if g.exit_cell.x >= 0:
 		var at = ORIGIN + Vector2(g.exit_cell) * CELL
 		draw_arc(at + Vector2(20, 19), 14, 0, TAU, 24, GOLD if g.powered() else MUTED, 2)
@@ -320,56 +303,18 @@ func draw_board():
 	var hovered = Vector2i(((get_global_mouse_position() - ORIGIN) / CELL).floor())
 	var d = hovered - g.player
 	var target = hovered if d in g.DIRS else g.player + g.facing
-	if not g.complete and not map_open and g.inside(target): draw_rect(Rect2(ORIGIN + Vector2(target) * CELL + Vector2(1, 1), Vector2(38, 38)), GOLD, false, 2)
+	if not g.complete and g.inside(target): draw_rect(Rect2(ORIGIN + Vector2(target) * CELL + Vector2(1, 1), Vector2(38, 38)), GOLD, false, 2)
 	for p in particles: draw_circle(p.pos, 2, Color(p.color, clampf(p.life * 2, 0, 1)))
 
 func draw_sidebar():
-	box(Rect2(828, 172, 284, 448), Color("13272c"))
-	label(Vector2(846, 200), "CHAPTER %02d / %02d" % [chapter + 1, chapters.size()], 12, GOLD)
-	wrapped(Vector2(846, 232), g.data.title, 246, 21)
-	wrapped(Vector2(846, 272), g.data.objective if not g.carrying else "Carry the heart home." if g.data.goal_kind == "heart_return" else "Keep the heart safe. Reach the trail.", 245, 14, MUTED)
 	for i in 3:
-		var r = Rect2(840 + i * 88, 318, 76, 70)
-		box(r, Color("0d2027"), GOLD if g.selected == i else Color("354d50"))
-		label(r.position + Vector2(7, 15), str(i + 1), 11, MUTED)
+		var rect = Rect2(450 + i * 88, 594, 76, 76)
+		box(rect, Color("102329"), GOLD if g.selected == i else Color("354d50"))
+		label(rect.position + Vector2(9, 19), str(i + 1), 13, MUTED)
 		if i < g.bag.size():
-			draw_rect(Rect2(r.position + Vector2(23, 17), Vector2(30, 25)), tile_color(g.bag[i]))
-			centered(r.position + Vector2(38, 59), g.bag[i].capitalize(), 12, WHITE)
+			draw_rect(Rect2(rect.position + Vector2(23, 32), Vector2(30, 25)), tile_color(g.bag[i]))
 		elif g.carrying and i == 2:
-			draw_circle(r.position + Vector2(38, 29), 9, GOLD)
-			centered(r.position + Vector2(38, 59), "Heart", 12, GOLD)
-		else: centered(r.position + Vector2(38, 46), "empty", 12, MUTED)
-	label(Vector2(846, 412), "WASD / Arrows   Walk", 14)
-	label(Vector2(846, 433), "Click / E   Take or place beside you", 13)
-	label(Vector2(846, 453), "1–3 / Tab   Select terrain", 13, MUTED)
-	button(Rect2(840, 464, 260, 34), "Z   Undo last choice")
-	button(Rect2(840, 504, 260, 34), "H   A little hint  (%d/3)" % hint_count)
-	button(Rect2(840, 544, 260, 34), "R   Restart this chapter")
-	button(Rect2(840, 584, 260, 34), "Esc   Journey map")
-	var total = g.water_sockets.size() + g.stone_sockets.size()
-	var filled = 0
-	for p in g.water_sockets:
-		if g.tiles.get(p) == "water": filled += 1
-	for p in g.stone_sockets:
-		if g.tiles.get(p) == "stone": filled += 1
-	label(Vector2(48, 676), "%d choices  ·  %d/%d wild seeds" % [g.moves, g.collected.size(), g.seeds.size()] + ("  ·  %d/%d sockets filled" % [filled, total] if total > 0 else ""), 13, MUTED)
-
-func draw_map():
-	draw_rect(Rect2(0, 0, 1152, 768), Color(0.025, 0.06, 0.075, 0.96))
-	centered(Vector2(576, 100), "Steal the Ground", 46, WHITE)
-	centered(Vector2(576, 135), "A five-chapter journey about borrowing, returning, and finding a way.", 17, MUTED)
-	wrapped(Vector2(180, 190), "The machines took the forest heart and broke the paths behind them. You are small. Your pockets are smaller. Carry the earth itself to bring the forest back.", 795, 19, WHITE)
-	for i in chapters.size():
-		var rect = Rect2(70 + i * 204, 306, 192, 210)
-		var locked = i > unlocked
-		box(rect, Color("243d34") if records.has(str(i)) else Color("142b32"), GOLD if i == unlocked else Color("30464a"))
-		label(rect.position + Vector2(16, 32), "CHAPTER %02d" % (i + 1), 12, MUTED if locked else GOLD)
-		wrapped(rect.position + Vector2(16, 69), chapters[i].title, 160, 21, MUTED if locked else WHITE)
-		wrapped(rect.position + Vector2(16, 130), chapters[i].subtitle, 157, 13, MUTED)
-		label(rect.position + Vector2(16, 192), "LOCKED" if locked else "%d/2 SEEDS · REPLAY" % int(records[str(i)].seeds) if records.has(str(i)) else "ENTER THE FOREST >", 11, MUTED if locked else GOLD)
-	button(Rect2(426, 570, 300, 48), "Enter   Continue your journey", true)
-	centered(Vector2(576, 658), "No timer. No lives. Undo freely. Optional wild seeds reward the curious.", 15, MUTED)
-	centered(Vector2(576, 704), "Minifantasy artwork by Krishna Palacio · ADVENTURE 02", 12, MUTED)
+			draw_circle(rect.position + Vector2(38, 44), 10, GOLD)
 
 func total_seeds() -> int:
 	var count = 0
@@ -377,12 +322,6 @@ func total_seeds() -> int:
 	return count
 
 func draw_completion():
-	draw_rect(Rect2(0, 0, 1152, 768), Color(0.025, 0.06, 0.075, 0.75))
-	box(Rect2(262, 234, 628, 310), Color("17312f"), GOLD)
-	var ending = chapter == chapters.size() - 1
-	centered(Vector2(576, 282), "THE FOREST REMEMBERS" if ending else "CHAPTER RESTORED", 13, GOLD)
-	centered(Vector2(576, 330), "A little world, made whole." if ending else "A way forward.", 30, WHITE)
-	centered(Vector2(576, 373), "The heart is home. The paths you borrowed bloom again." if ending else g.data.title + " is behind you.", 17, WHITE)
-	centered(Vector2(576, 412), ("%d of 10 wild seeds saved across your journey" % total_seeds()) if ending else "%d choices · %d of %d wild seeds rescued" % [g.moves, g.collected.size(), g.seeds.size()], 15, MUTED)
-	button(Rect2(405, 445, 340, 48), "Enter   Return to the journey map" if ending else "Enter   Follow the next trail", true)
-	centered(Vector2(576, 523), "Z to undo · R to replay · Esc for chapters", 13, MUTED)
+	draw_rect(Rect2(0, 0, 1152, 768), Color(0.025, 0.06, 0.075, 0.94))
+	centered(Vector2(576, 350), "The End", 48, WHITE)
+	button(Rect2(456, 418, 240, 54), "Play again", true)

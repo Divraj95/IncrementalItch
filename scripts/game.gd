@@ -291,11 +291,9 @@ func draw_board():
 			draw_line(wheel, wheel + ray, Color("bda676"), 2)
 	var home_at = ORIGIN + Vector2(g.home) * CELL + Vector2(20, 20)
 	draw_circle(home_at, 15, Color("b9ce88"), false, 2)
+	if g.data.goal_kind == "heart_return": draw_goal(home_at)
 	if g.exit_cell.x >= 0:
-		var at = ORIGIN + Vector2(g.exit_cell) * CELL
-		draw_arc(at + Vector2(20, 19), 14, 0, TAU, 24, GOLD if g.powered() else MUTED, 2)
-		draw_line(at + Vector2(11, 19), at + Vector2(28, 19), GOLD, 2)
-		draw_polyline(PackedVector2Array([at + Vector2(21, 12), at + Vector2(28, 19), at + Vector2(21, 26)]), GOLD, 2)
+		draw_goal(ORIGIN + Vector2(g.exit_cell) * CELL + Vector2(20, 20))
 	if g.heart.x >= 0 and not g.carrying:
 		var at = ORIGIN + Vector2(g.heart) * CELL + Vector2(20, 17 + sin(clock * 3) * 2)
 		draw_circle(at, 20, Color(0.9, 0.75, 0.35, 0.12))
@@ -316,6 +314,20 @@ func draw_board():
 	var target = hovered if d in g.DIRS else g.player + g.facing
 	if not g.complete and g.inside(target): draw_rect(Rect2(ORIGIN + Vector2(target) * CELL + Vector2(1, 1), Vector2(38, 38)), GOLD, false, 2)
 	for p in particles: draw_circle(p.pos, 2, Color(p.color, clampf(p.life * 2, 0, 1)))
+
+func draw_goal(center: Vector2):
+	var ready = g.all_seeds_collected() and g.powered()
+	var color = GOLD if ready else MUTED
+	draw_arc(center, 14, 0, TAU, 24, color, 2)
+	if g.all_seeds_collected():
+		draw_line(center + Vector2(-9, 0), center + Vector2(8, 0), color, 2)
+		draw_polyline(PackedVector2Array([center + Vector2(1, -7), center + Vector2(8, 0), center + Vector2(1, 7)]), color, 2)
+	else:
+		draw_rect(Rect2(center + Vector2(-6, -1), Vector2(12, 9)), color, false, 2)
+		draw_arc(center + Vector2(0, -2), 4, PI, TAU, 12, color, 2)
+	for i in g.seeds.size():
+		var dot = center + Vector2((i - (g.seeds.size() - 1) / 2.0) * 12, -24)
+		draw_circle(dot, 3, GOLD if g.seeds[i] in g.collected else Color("42545a"))
 
 func draw_sidebar():
 	for i in MOVE_BUTTONS.size():

@@ -1,6 +1,6 @@
 # Steal the Ground
 
-A five-chapter Godot 4.6 terrain puzzle adventure. Borrow the ground, repair forgotten machinery, recover the forest heart, and carry it home. Each chapter introduces a new use for the three-slot backpack. Optional seeds reward detours. The game opens with a Play button, advances automatically through five levels, and ends with The End. Only three numbered inventory slots appear below the playfield.
+A five-chapter Godot 4.6 terrain puzzle adventure. Borrow the ground, repair forgotten machinery, recover the forest heart, and carry it home. Each chapter introduces a new use for the three-slot backpack. Collect every yellow seed to unlock each level’s exit. The game opens with a Play button, advances automatically through five levels, and ends with The End. Only three numbered inventory slots appear below the playfield.
 
 Play the deployed build: **https://divraj95.github.io/IncrementalItch/**
 

@@ -67,6 +67,11 @@ func powered() -> bool:
 		if tiles.get(p, "void") != "stone": return false
 	return true
 
+func all_seeds_collected() -> bool:
+	for seed in seeds:
+		if seed not in collected: return false
+	return true
+
 func inside(p: Vector2i) -> bool:
 	return p.x >= 0 and p.x < DIMENSIONS.x and p.y >= 0 and p.y < DIMENSIONS.y
 
@@ -160,4 +165,7 @@ func check_progress():
 		complete = carrying and player == home and (heart != home) and moves > 0 and powered() and (not data.get("require_exit", false) or collapsed)
 	elif player == exit_cell:
 		complete = powered() and (not data.get("require_heart", false) or carrying)
+	complete = complete and all_seeds_collected()
+	if not complete and (player == exit_cell or (player == home and carrying)) and not all_seeds_collected():
+		notice = "Collect every yellow seed before leaving."
 	if complete: last_event = "complete"; notice = "Another piece of the forest, made whole."

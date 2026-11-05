@@ -73,20 +73,21 @@ func replay(level: Dictionary, label: String, all_seeds: bool = false):
 			return
 		verify(world.bag.size() <= (2 if world.carrying else 3), prefix + "inventory limit")
 		verify(world.walkable(world.player), prefix + "player remains supported")
-	verify(world.complete, label + ": reaches victory")
+	var should_complete = all_seeds or world.seeds.is_empty()
+	verify(world.complete == should_complete, label + ": victory requires every yellow seed")
 	verify(world.powered(), label + ": all required mechanisms powered")
-	if all_seeds: verify(world.collected.size() == world.seeds.size(), label + ": all optional seeds collected")
+	if all_seeds: verify(world.collected.size() == world.seeds.size(), label + ": all required seeds collected")
 	if level.get("require_heart", false) or level.get("goal_kind", "exit") == "heart_return":
 		verify(world.carrying, label + ": heart recovered")
 	var solved_moves = world.moves
-	verify(world.undo() and not world.complete, label + ": undo reverses victory")
+	verify(world.undo() and not world.complete, label + ": undo restores incomplete state")
 	while not world.history.is_empty(): world.undo()
 	var pristine = World.new()
 	pristine.setup(level)
 	verify(world.tiles == pristine.tiles and world.player == pristine.player and world.bag == pristine.bag and world.carrying == pristine.carrying and world.collected.is_empty() and world.moves == 0, label + ": undo entire solution restores initial puzzle")
 	world.setup(level)
 	verify(world.tiles == pristine.tiles and world.player == pristine.player and world.history.is_empty(), label + ": restart deterministic")
-	print("PASS %s: solution completed in %d actions; undo and restart checked" % [label, solved_moves])
+	print("PASS %s: route replayed in %d actions; seed gate, undo and restart checked" % [label, solved_moves])
 
 func fixture(cells: Dictionary, extra: Dictionary = {}) -> Dictionary:
 	var rows: Array = []
